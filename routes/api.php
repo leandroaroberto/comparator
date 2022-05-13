@@ -21,4 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('convert', [ExcelController::class, 'convertSpreadsheetToJson']);
+Route::post('upload', [ExcelController::class, 'upload']);
