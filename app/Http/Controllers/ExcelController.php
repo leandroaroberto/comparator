@@ -100,6 +100,16 @@ class ExcelController extends Controller
         }
 
         return true;
-    }    
+    }  
+    
+    /**
+     * Display the specified resource.
+     *
+     * @return array
+     */
+    public static function getData(){        
+        $data = session('SEARCH_DATA');
+        return $data ?: [];
+    }
 
 }
