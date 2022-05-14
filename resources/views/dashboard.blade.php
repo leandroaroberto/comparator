@@ -12,7 +12,7 @@
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                         Let's update the catalog
                     </h2>
-                    <form action="{{ route('fileImport') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('upload') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group mb-4" style="max-width: 700px; margin: 0 auto;">                                
                             <div class="mt-4 col-start-1 row-start-3 self-center sm:mt-0 sm:col-start-2 sm:row-start-2 sm:row-span-2 lg:mt-6 lg:col-start-1 lg:row-start-3 lg:row-end-4">
