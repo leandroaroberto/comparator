@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Auth\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,8 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('dashboard',[DashboardController::class,'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
+
+Route::post('fileImport',[DashboardController::class,'fileImport'])
+    ->middleware(['auth'])
+    ->name('fileImport');
 
 require __DIR__.'/auth.php';

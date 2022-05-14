@@ -1,12 +1,14 @@
 <?php
 namespace App\Imports;
-use App\Models\User;
+use App\Models\Spreadsheet;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
+//use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 
-class SpreadsheetImport implements ToModel
+class SpreadsheetImport implements ToModel, WithBatchInserts
 {
+
     /**
     * @param array $row
     *
@@ -24,10 +26,26 @@ class SpreadsheetImport implements ToModel
             'location'          => $row[3],
             'price'             => $this->getPrice($row[4])           
         ]);
+
+        // return new Spreadsheet([
+        //     'model_name'        => $row[0],
+        //     'ram'               => $row[1],
+        //     'ram_type'          => $row[1],
+        //     'hard_disk_storage' => $row[2],
+        //     'hard_disk_amount'  => 2,
+        //     'hard_disk_type'    => $row[2],
+        //     'location'          => $row[3],
+        //     'price'             => floatval($row[4])           
+        // ]);
+    }
+
+     public function batchSize(): int
+    {
+        return 1000;
     }
 
     private function getRam($ram){        
-        $ram = explode(strtoupper($ram) , 'GB')[0];
+        $ram = explode('GB', strtoupper($ram))[0];
         return $ram . 'DDR';
     }
 
