@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 use Illuminate\Support\Facades\DB;
-
 use App\Models\Spreadsheet;
 
 class SpreadsheetController extends Controller
@@ -62,17 +61,17 @@ class SpreadsheetController extends Controller
                 }
             });
         } catch(Throwable $exception){
-            return [
+            return response()->json([
                 'hasError' => true,
-                'message' => 'Error on insert data in Spreadsheet table.',
+                'message' => 'Error on insert data in Spreadsheet table. Spreadsheet bad format. Please contact Admin for more details.',
                 'errorDetails'=> $exception
-            ];
+            ], 400);
         }
 
-        return [
+        return response()->json([
                 'hasError' => false,
                 'message' => 'Catalog has updated successfully.',
-            ];
+            ], 201);
 
     }
 
@@ -126,20 +125,20 @@ class SpreadsheetController extends Controller
         $fileHashName = md5(now() . $originalFileName) . '.' . $extension;     
         
         if (!$this->isValidFileType($file)) {            
-            return [
+            return response()->json([
                 'hasError' => true,
                 'message' => 'File type not supported.'
-            ];
+            ], 400);
         }
 
         try{
             $path = $file->storeAs('public', $fileHashName);
         }
         catch (Throwable $e) {
-            return [
+            return response()->json([
                 'hasError' => true,
                 'message' => 'Failed to upload, please try again.'
-            ];
+            ], 400);
         }
 
         return $this->createSpreadsheetOnDatabase($fileHashName);
