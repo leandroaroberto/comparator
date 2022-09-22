@@ -35,7 +35,9 @@ class HomeController extends Controller
        
         $data = DB::table('spreadsheets')
             ->where('status',1)
-            ->whereIn('ram', ['2GB', '4GB', '128GB'])
+            //->whereIn('ram', ['2GB', '4GB', '128GB'])
+            ->where('location',$request->location ?: '')
+            ->where('hard_disk_type',$request->harddisk ?: '')
             ->orderBy('ram','DESC')
             ->orderBy('model_name','ASC')
             ->get();
