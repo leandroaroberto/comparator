@@ -31,17 +31,18 @@ class HomeController extends Controller
 		"harddisk": null,
 		"location": null
         */
-        //$data = ['not implemented yet.', $request->all()];
-       
-        $data = DB::table('spreadsheets')
-            ->where('status',1)
-            //->whereIn('ram', ['2GB', '4GB', '128GB'])
-            ->where('location',$request->location ?: '')
-            ->where('hard_disk_type',$request->harddisk ?: '')
-            ->orderBy('ram','DESC')
-            ->orderBy('model_name','ASC')
-            ->get();
 
+        $data = DB::table('spreadsheets')->select('*');
+        // if ($request->storage)
+        //     $data = $data->where('storage', $request->storage);
+        if($request->ram)
+            $data = $data->whereIn('ram', $request->ram);
+        if ($request->location)
+            $data = $data->where('location', $request->location);
+        if ($request->harddisk)
+            $data = $data->where('hard_disk_type', $request->harddisk);
+        $data = $data->get();
+        
         return response()->json($data, 200);
     }
 }
